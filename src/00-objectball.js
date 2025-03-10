@@ -123,3 +123,176 @@ function homeTeamName() {
 }
 
 console.log(homeTeamName());
+
+function numPointsSored(payerName) {
+  let game =gameObject();
+  for (let team in game) {
+    if (game[team].players[payerName]) {
+        return game[team].players[payerName].points;
+    }
+}
+return "Player not found";
+}
+
+
+function shoeSize(playerName) {
+  let game = gameObject();
+  for (let team in game) {
+      if (game[team].players[playerName]) {
+          return game[team].players[playerName].shoe;
+      }
+  }
+  return "Player not found";
+}
+
+function teamColors(teamName) {
+  let game = gameObject();
+  for (let team in game) {
+      if (game[team].teamName === teamName) {
+          return game[team].colors;
+      }
+  }
+  return "Team not found";
+}
+
+function teamNames() {
+  let game = gameObject();
+  return [game.home.teamName, game.away.teamName];
+}
+
+function playerNumbers(teamName) {
+  let game = gameObject();
+  for (let team in game) {
+      if (game[team].teamName === teamName) {
+          return Object.values(game[team].players).map(player => player.number);
+      }
+  }
+  return "Team not found";
+}
+
+function playerStats(playerName) {
+  let game = gameObject();
+  for (let team in game) {
+      if (game[team].players[playerName]) {
+          return game[team].players[playerName];
+      }
+  }
+  return "Player not found";
+}
+
+console.log(numPointsSored("Ben Gordon")); 
+console.log(shoeSize("Brook Lopez")); 
+console.log(teamColors("Charlotte Hornets"));
+console.log(teamNames()); 
+console.log(playerNumbers("Brooklyn Nets"));
+console.log(playerStats("Mason Plumlee")); 
+
+
+
+function bigShoeRebounds() {
+  let game = gameObject();
+  let largestShoeSize = 0;
+  let rebounds = 0;
+
+  for (let team in game) {
+      for (let player in game[team].players) {
+          let playerData = game[team].players[player];
+
+          if (playerData.shoe > largestShoeSize) {
+              largestShoeSize = playerData.shoe;
+              rebounds = playerData.rebounds;
+          }
+      }
+  }
+
+  return rebounds;
+}
+
+console.log(bigShoeRebounds());
+
+
+function mostPointsScored() {
+  let game = gameObject();
+  let maxPoints = 0;
+  let topPlayer = "";
+
+  for (let team in game) {
+      for (let player in game[team].players) {
+          let points = game[team].players[player].points;
+          if (points > maxPoints) {
+              maxPoints = points;
+              topPlayer = player;
+          }
+      }
+  }
+
+  return topPlayer;
+}
+
+function winningTeam() {
+  let game = gameObject();
+  let teamScores = {};
+
+  for (let team in game) {
+      let totalPoints = 0;
+
+      for (let player in game[team].players) {
+          totalPoints += game[team].players[player].points;
+      }
+
+      teamScores[game[team].teamName] = totalPoints;
+  }
+
+  return teamScores["Brooklyn Nets"] > teamScores["Charlotte Hornets"]
+      ? "Brooklyn Nets"
+      : "Charlotte Hornets";
+}
+
+function playerWithLongestName() {
+  let game = gameObject();
+  let longestName = "";
+  
+  for (let team in game) {
+      for (let player in game[team].players) {
+          if (player.length > longestName.length) {
+              longestName = player;
+          }
+      }
+  }
+
+  return longestName;
+}
+
+console.log("Player with most points:", mostPointsScored());
+console.log("Winning team:", winningTeam());
+console.log("Player with longest name:", playerWithLongestName());
+
+
+function doesLongNameStealATon() {
+  let game = gameObject();
+  let longestName = "";
+  let maxSteals = 0;
+  let topStealer = "";
+
+  for (let team in game) {
+      for (let player in game[team].players) {
+          if (player.length > longestName.length) {
+              longestName = player;
+          }
+      }
+  }
+
+  for (let team in game) {
+      for (let player in game[team].players) {
+          let steals = game[team].players[player].steals;
+          if (steals > maxSteals) {
+              maxSteals = steals;
+              topStealer = player;
+          }
+      }
+  }
+
+  return longestName === topStealer;
+}
+
+console.log(doesLongNameStealATon());
